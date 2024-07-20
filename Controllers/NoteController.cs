@@ -1,4 +1,5 @@
-﻿using AuthWithControllersExample.Extensions;
+﻿using System.Collections.Concurrent;
+using AuthWithControllersExample.Extensions;
 using AuthWithControllersExample.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace AuthWithControllersExample.Controllers;
 
 public class NoteController : BaseController
 {
-    private static readonly List<Note> Notes = new();
+    private static readonly ConcurrentBag<Note> Notes = new();
 
     [HttpPost]
     public IActionResult AddNote(string title)

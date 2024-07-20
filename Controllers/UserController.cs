@@ -1,4 +1,5 @@
-﻿using AuthWithControllersExample.Extensions;
+﻿using System.Collections.Concurrent;
+using AuthWithControllersExample.Extensions;
 using AuthWithControllersExample.Model;
 using AuthWithControllersExample.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,7 @@ namespace AuthWithControllersExample.Controllers;
 public class UserController(IJwtTokenGenerator jwtTokenGenerator, IJwtTokensRepository jwtTokensRepository) 
     : BaseController
 {
-    private static readonly List<User> Users = new();
+    private static readonly ConcurrentBag<User> Users = new();
     
     [AllowAnonymous] // Указывает, что этот метод доступен без авторизации
     [HttpPost("register")]
@@ -56,7 +57,7 @@ public class UserController(IJwtTokenGenerator jwtTokenGenerator, IJwtTokensRepo
         return Ok();
     }
 
-    [HttpGet]
+    [HttpGet("refreshtoken")]
     public string RefreshToken()
     {
         var userId = HttpContext.ExtractUserIdFromClaims();
